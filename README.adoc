@@ -1,0 +1,15 @@
+= Recursos del Módulo de Certificación Electrónica (MCE)
+
+== Lista de recursos disponibles:
+
+- *Páginas.-* Incluye las páginas y layouts de la aplicación. Depende de Extensión de API REST, de las definiciones del proceso
+y del modelo de datos de negocio (BDM).
+
+- *Extensión de API REST.-*  Extensión de la API REST requerida por la aplicación para consultar si un usuario es administrador.
+
+- *Aplicaciones.-* La definición de la aplicación. Depende de Páginas.
+
+- *Imágenes.-* Incluye los logos e imágenes utilizados en la aplicación.
+
+- *Servicios FirmaEc.-* Incluye los servicios para firma digital con FirmaEC descentralizada.
+
