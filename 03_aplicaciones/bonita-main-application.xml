@@ -22,13 +22,13 @@
         </applicationPages>
         <applicationMenus>
             <applicationMenu applicationPage="task-list">
-                <displayName>Tasks</displayName>
+                <displayName>Tareas</displayName>
             </applicationMenu>
             <applicationMenu applicationPage="case-list">
-                <displayName>Cases</displayName>
+                <displayName>Casos</displayName>
             </applicationMenu>
             <applicationMenu applicationPage="process-list">
-                <displayName>Processes</displayName>
+                <displayName>Procesos</displayName>
             </applicationMenu>
         </applicationMenus>
     </application>
@@ -56,33 +56,33 @@
                 <displayName>BPM</displayName>
                 <applicationMenus>
                     <applicationMenu applicationPage="admin-process-list">
-                        <displayName>Processes</displayName>
+                        <displayName>Procesos</displayName>
                     </applicationMenu>
                     <applicationMenu applicationPage="admin-case-list">
-                        <displayName>Cases</displayName>
+                        <displayName>Casos</displayName>
                     </applicationMenu>
                     <applicationMenu applicationPage="admin-task-list">
-                        <displayName>Tasks</displayName>
+                        <displayName>Tareas</displayName>
                     </applicationMenu>
                 </applicationMenus>
             </applicationMenu>
             <applicationMenu>
-                <displayName>Organization</displayName>
+                <displayName>Organización</displayName>
                 <applicationMenus>
                     <applicationMenu applicationPage="admin-user-list">
-                        <displayName>Users</displayName>
+                        <displayName>Usuarios</displayName>
                     </applicationMenu>
                     <applicationMenu applicationPage="admin-group-list">
-                        <displayName>Groups</displayName>
+                        <displayName>Grupos</displayName>
                     </applicationMenu>
                     <applicationMenu applicationPage="admin-role-list">
                         <displayName>Roles</displayName>
                     </applicationMenu>
                     <applicationMenu applicationPage="admin-install-export-organization">
-                        <displayName>Install / Export</displayName>
+                        <displayName>Instalar / Exportar</displayName>
                     </applicationMenu>
                     <applicationMenu applicationPage="admin-profile-list">
-                        <displayName>Profiles</displayName>
+                        <displayName>Perfiles</displayName>
                     </applicationMenu>
                 </applicationMenus>
             </applicationMenu>
@@ -90,10 +90,10 @@
                 <displayName>BDM</displayName>
             </applicationMenu>
             <applicationMenu applicationPage="admin-resource-list">
-                <displayName>Resources</displayName>
+                <displayName>Recursos</displayName>
             </applicationMenu>
             <applicationMenu applicationPage="admin-application-list">
-                <displayName>Applications</displayName>
+                <displayName>Aplicaciones</displayName>
             </applicationMenu>
         </applicationMenus>
     </application>
