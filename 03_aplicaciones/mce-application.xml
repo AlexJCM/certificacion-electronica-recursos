@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<applications xmlns="http://documentation.bonitasoft.com/application-xml-schema/1.0">
+	<application token="appCertificacion" version="1.0" profile="User" homePage="index" state="ACTIVATED" layout="custompage_BonitaLayoutV6" theme="custompage_themeBonita">
+        <displayName>Módulo de Certificación Electrónica (MCE)</displayName>
+        <applicationPages>
+            <applicationPage customPage="custompage_pageAppCertificacionElectronica" token="index"/>
+        </applicationPages>
+        <applicationMenus>
+            <applicationMenu applicationPage="index">
+                <displayName>Inicio</displayName>
+            </applicationMenu>
+        </applicationMenus>
+	</application>
+</applications>

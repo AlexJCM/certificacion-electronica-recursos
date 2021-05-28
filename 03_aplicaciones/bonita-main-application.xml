@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<applications xmlns="http://documentation.bonitasoft.com/application-xml-schema/1.0">
-    <application token="appCertificacion" version="1.0" profile="User" homePage="index" state="ACTIVATED" layout="custompage_BonitaLayoutV6" theme="custompage_themeBonita">
-        <displayName>Módulo de Certificación Electrónica (MCE)</displayName>
-        <description></description>
-        <applicationPages>
-            <applicationPage customPage="custompage_pageAppCertificacionElectronica" token="index"/>
-        </applicationPages>
-        <applicationMenus>
-            <applicationMenu applicationPage="index">
-                <displayName>Inicio</displayName>
-            </applicationMenu>
-        </applicationMenus>
-    </application>
+<applications xmlns="http://documentation.bonitasoft.com/application-xml-schema/1.0">    
     <application token="userApp" version="2.1" profile="User" homePage="task-list" state="ACTIVATED" layout="custompage_BonitaLayoutV6" theme="custompage_themeBonita">
         <displayName>Aplicación de Usuarios de Bonita</displayName>
         <applicationPages>

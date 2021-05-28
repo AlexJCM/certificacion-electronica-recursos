@@ -1,15 +1,19 @@
-= Recursos del Módulo de Certificación Electrónica (MCE)
+++++
+<h2 align="center">
+  Recursos del Módulo de Certificación Electrónica (MCE)
+</h2>
+<hr>
+<h3>Lista de recursos disponibles:</h3>
+++++
 
-== Lista de recursos disponibles:
+- https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/01_paginas[Páginas.-] Incluye las páginas y layouts de la aplicación. Depende de *Extensión de API REST*.
 
-- *Páginas.-* Incluye las páginas y layouts de la aplicación. Depende de Extensión de API REST, de las definiciones del proceso
-y del modelo de datos de negocio (BDM).
+- https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/02_extension-api-rest[Extensión de API REST.-] Contiene la extensión de la API REST requerida por la aplicación para consultar si un usuario logueado es administrador.
 
-- *Extensión de API REST.-*  Extensión de la API REST requerida por la aplicación para consultar si un usuario es administrador.
+- https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/03_aplicaciones[Aplicaciones.-] La definición de la aplicación. Depende del recurso *Páginas*.
 
-- *Aplicaciones.-* La definición de la aplicación. Depende de Páginas.
+- https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/04_imagenes[Imágenes.-] Incluye los logotipos e imágenes utilizados en la aplicación.
 
-- *Imágenes.-* Incluye los logos e imágenes utilizados en la aplicación.
+- https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/05_servicios-firmaec[Servicios FirmaEc.-] Incluye los servicios para realizar el proceso de firma digital con FirmaEC descentralizada.
 
-- *Servicios FirmaEc.-* Incluye los servicios para firma digital con FirmaEC descentralizada.
-
+Para acceder al repositorio que contiene el código fuente de la aplicación principal de sarrollada con Bonita Studio Community haz clic https://github.com/AlexJCM/certificacion-electronica[aquí].
