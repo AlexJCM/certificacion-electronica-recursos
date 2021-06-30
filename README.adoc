@@ -1,9 +1,8 @@
 ++++
-<h2 align="center">
+<h1 align="center">
   Recursos del Módulo de Certificación Electrónica (MCE)
-</h2>
-<hr>
-<h3>Lista de recursos disponibles:</h3>
+</h1>
+<h2>Lista de recursos disponibles:</h2>
 ++++
 
 - https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/01_paginas[Páginas.-] Incluye las páginas y layouts de la aplicación. Depende de *Extensión de API REST*.
@@ -16,4 +15,4 @@
 
 - https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/05_servicios-firmaec[Servicios FirmaEc.-] Incluye los servicios para realizar el proceso de firma digital con FirmaEC descentralizada.
 
-Para acceder al repositorio que contiene el código fuente de la aplicación principal de sarrollada con Bonita Studio Community haz clic https://github.com/AlexJCM/certificacion-electronica[aquí].
+Para acceder al repositorio que contiene el código fuente de la aplicación principal desarrollada con Bonita Studio Community haz clic https://github.com/AlexJCM/certificacion-electronica[aquí].
