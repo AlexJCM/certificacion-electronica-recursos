@@ -1,17 +1,14 @@
 FROM jboss/base-jdk:8
 
-# Set the WILDFLY_VERSION env variable
 ENV WILDFLY_VERSION 20.0.1.Final
 ENV WILDFLY_SHA1 95366b4a0c8f2e6e74e3e4000a98371046c83eeb
 ENV JBOSS_HOME /opt/wildfly
-# ENV JAVA_OPTS=" -Xms784m -Xmx784m -XX:MetaspaceSize=784m -XX:MaxMetaspaceSize=784m -Djava.net.preferIPv4Stack=true -Duser.timezone=America/Sao_Paulo -Duser.language=pt -Duser.country=BR"
+# ENV JAVA_OPTS=" -Xms784m -Xmx784m -XX:MetaspaceSize=784m -XX:MaxMetaspaceSize=784m -Djava.net.preferIPv4Stack=true"
 ENV JBOSS_STATIC /opt/wildfly-static
 
 ENV DATASOURCE_NAME FirmaDigitalDS
 ENV DATASOURCE_JNDI java:/FirmaDigitalDS
 
-#No se debe poner localhost debido a que el contnedor internamente tambien tiene su localhost,
-# excepto si si se ejecuta docker run con --net="host"
 ARG DB_USER
 ARG DB_PASS
 ARG DB_NAME
@@ -35,20 +32,20 @@ RUN cd $HOME \
 RUN mkdir -p ${JBOSS_STATIC} \
     && chown -R jboss:0 ${JBOSS_STATIC} \
     && chmod -R g+rw ${JBOSS_STATIC}
-
+    
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
 USER jboss
 COPY /scripts/config.sh /scripts/
-COPY standalone.xml $JBOSS_HOME/standalone/configuration/
-# Download and install .war files  on wildfly   
+COPY standalone.xml $JBOSS_HOME/standalone/configuration/ 
 COPY api.war $JBOSS_HOME/standalone/deployments/
 COPY recepcion.war $JBOSS_HOME/standalone/deployments/
-ADD https://jdbc.postgresql.org/download/postgresql-42.2.2.jar /tmp
+ADD https://jdbc.postgresql.org/download/postgresql-42.2.2.jar /tmp/
 
 USER root
-RUN chown -R jboss:0 /scripts && chmod +x /scripts/config.sh \
+RUN chown -R jboss:0 /scripts \
+    && chmod +x /scripts/config.sh \
     && chown jboss:0 /tmp/postgresql-42.2.2.jar
 
 USER jboss
