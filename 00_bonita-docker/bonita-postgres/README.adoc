@@ -15,11 +15,15 @@ When starting a new container, it will create two databases...
 
 ## Build and run it
 
-`docker build -t my-bonita-postgres .`
+[source, bash]
+----
+docker build -t my-bonita-postgres .
+----
 
 Recommended way, to have datafiles out of container: bind a volume to **/var/lib/postgresql/data**
 
-```
+[source, bash]
+----
 docker run -d \
     --name dev-postgres \
     -e POSTGRES_PASSWORD=postgres \
@@ -27,33 +31,40 @@ docker run -d \
     -v ${HOME}/postgres-data/:/var/lib/postgresql/data \
     -p 5432:5432 \
     my-bonita-postgres
-```
+----
 
 ## Execute shell command inside container
 
-`docker exec -it dev-postgres bash`
+[source, bash]
+----
+docker exec -it dev-postgres bash`
+----
 
 Verify that the user and database have been created correctly:
 
-```
+[source, sql]
+----
 psql -d bonita_db -h 127.0.0.1 -U bonita_db_user
 -- Expected return: 1
 SELECT 1; \q
-```
+----
 
 ## Build and run it with Docker Compose
 
-```
+[source, bash]
+----
 docker-compose up --build -d
  
 docker-compose down -v --remove-orphans
-
-```
+----
 
 
 ## Review configurations (optional)
 
+[source, bash]
+----
 cat /var/lib/postgresql/data/pgdata/postgresql.conf
 cat /var/lib/postgresql/data/pgdata/pg_hba.conf
+----
 
 

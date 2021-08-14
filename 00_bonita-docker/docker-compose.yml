@@ -2,7 +2,7 @@ version: '3.9'
 
 services:  
   db:
-    build: ./bonita-db-docker
+    build: ./bonita-postgres
     container_name: dev-postgres
     restart: unless-stopped
     ports:
@@ -29,7 +29,7 @@ services:
       - REST_API_DYN_AUTH_CHECKS=false
       - TZ=America/Guayaquil
     volumes:
-      - /opt/bonita:/opt/bonita/BonitaCommunity-2021.1
+      - /opt/bonita:/opt/bonita
      
     restart: on-failure:2
     depends_on:
