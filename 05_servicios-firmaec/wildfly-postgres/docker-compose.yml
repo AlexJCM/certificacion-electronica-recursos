@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:  
+  postgres11:
+    build: .
+    container_name: dev-postgres-firmaec
+    #restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ${HOME}/postgres-data-firmaec/:/var/lib/postgresql/data

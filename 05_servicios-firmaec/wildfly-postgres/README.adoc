@@ -1,0 +1,70 @@
+# Pre-configured Postgres database image to work with Firma Digital
+
+This image is based on the [official Postgres image](https://hub.docker.com/_/postgres)
+
+### Configuration
+
+Set required `max_prepared_transactions` setting required by Bonita.
+
+### Databases
+
+When starting a new container, it will create two databases...
+* `bonita` (connection user `bonita`, password `bpm`)
+* `business_data` (connection user `business_data`, password `bpm`)
+
+
+## Build and run it
+
+[source, bash]
+----
+docker build -t my-bonita-postgres .
+----
+
+Recommended way, to have datafiles out of container: bind a volume to **/var/lib/postgresql/data**
+
+[source, bash]
+----
+docker run -d \
+    --name dev-postgres \
+    -e POSTGRES_PASSWORD=postgres \
+    -e PGDATA=/var/lib/postgresql/data/pgdata \
+    -v ${HOME}/postgres-data/:/var/lib/postgresql/data \
+    -p 5432:5432 \
+    firmaec-postgres
+----
+
+## Execute shell command inside container
+
+[source, bash]
+----
+docker exec -it dev-postgres bash
+----
+
+Verify that the user and database have been created correctly:
+
+[source, sql]
+----
+psql -d firmadigital -h 127.0.0.1 -U firmadigital
+-- Expected return: 1
+SELECT 1; \q
+----
+
+## Build and run it with Docker Compose
+
+[source, bash]
+----
+docker-compose up --build -d
+ 
+docker-compose down -v --remove-orphans
+----
+
+
+## Review configurations (optional)
+
+[source, bash]
+----
+cat /var/lib/postgresql/data/pgdata/postgresql.conf
+cat /var/lib/postgresql/data/pgdata/pg_hba.conf
+----
+
+
