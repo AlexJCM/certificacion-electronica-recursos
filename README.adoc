@@ -1,18 +1,18 @@
 ++++
-<h1 align="center">
+<h2>
   Recursos del Módulo de Certificación Electrónica (MCE)
-</h1>
-<h2>Lista de recursos disponibles:</h2>
+</h2>
+<h3>Lista de recursos disponibles:</h3>
 ++++
 
-- https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/01_paginas[Páginas.-] Incluye las páginas y layouts de la aplicación. Depende del recurso *Extensión de API REST*.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/00_docker[Docker.-] Contiene los archivos de configuración y despliegue de un servidor Wildfly con servicios web que permiten realizar el proceso de firma digital, Postgresql y Bonita Tomcat.
 
-- https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/02_extension-api-rest[Extensión de API REST.-] Contiene la extensión de la API REST requerida por la aplicación para consultar si un usuario logueado es administrador.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/01_paginas[Páginas.-] Incluye las páginas y layouts de la aplicación. Depende del recurso *Extensión de API REST*.
 
-- https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/03_aplicaciones[Aplicaciones.-] Incluye la definición de la aplicación. Depende del recurso *Páginas*.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/02_extension-api-rest[Extensión de API REST.-] Contiene la extensión de la API REST requerida por la aplicación para consultar si un usuario logueado es administrador.
 
-- https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/04_imagenes[Imágenes.-] Incluye los logotipos e imágenes utilizados en la aplicación.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/03_aplicaciones[Aplicaciones.-] Incluye la definición de la aplicación. Depende del recurso *Páginas*.
 
-- https://github.com/AlexJCM/certificacion-electronica-recursos/tree/main/05_servicios-firmaec[Despliegue.-] Contiene los archivos de configuración de un servidor Wildfly, los servicios web que permiten realizar el proceso de firma digital utilizando FirmaEC descentralizada, y Bonita Tomcat.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/04_imagenes[Imágenes.-] Incluye los logotipos e imágenes utilizados en la aplicación.
 
-Para acceder al repositorio que contiene el código fuente de la aplicación web principal desarrollada con Bonita Studio Community 7.12.1 haz clic https://github.com/AlexJCM/certificacion-electronica[aquí].
+Para acceder al repositorio que contiene el código fuente de la aplicación web principal desarrollada con Bonita Studio Community 7.12.1 haz clic https://github.com/alexjcm/certificacion-electronica[aquí].

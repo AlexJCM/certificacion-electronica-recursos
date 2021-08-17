@@ -1,21 +1,23 @@
 #!/bin/bash
 ###########  Start, config and shutdown Wildfly  ##############
 JBOSS_CLI=$JBOSS_HOME/bin/jboss-cli.sh
+JBOSS_FILE_CONFIG=$JBOSS_HOME/standalone/configuration/standalone.xml
 
 function wait_for_server() {
   until `$JBOSS_CLI -c "ls /deployment" &> /dev/null`; do
     echo "Waiting..."
-    sleep 7
+    sleep 6
   done
 }
 
+sed -i '/<location name="\/" handler="welcome-content"\/>/a \                    <location name="\/static" handler="dirPdfs"\/>' "$JBOSS_FILE_CONFIG"
+sed -i '/<file name="welcome-content" path="${jboss.home.dir}\/welcome-content"\/>/a \                <file name="dirPdfs" path="\/opt\/wildfly-static"\/>' "$JBOSS_FILE_CONFIG"
+
 echo "----------- Starting WildFly Server ------------"
 $JBOSS_HOME/bin/standalone.sh -b=0.0.0.0 -c standalone.xml > /dev/null &
-echo "--------- Waiting for the server to boot -------"
+echo "-------  Waiting for the server to boot  -------"
 wait_for_server
-echo "---------------- Setup Datasource --------------"
-echo "1. Add PostgreSQL driver"
-echo "2. Add the datasource"
+echo "------------  Setup Datasource   ---------------"
 
 $JBOSS_CLI -c << EOF
 batch
@@ -25,16 +27,22 @@ module add --name=org.postgresql --resources=$HOME/postgresql-42.2.2.jar --depen
 data-source add \
   --name=$DATASOURCE_NAME \
   --jndi-name=$DATASOURCE_JNDI \
-  --connection-url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME_FIRMA} \
+  --connection-url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME_SIGNATURE} \
   --driver-name=postgresql \
-  --user-name=$DB_USER_FIRMA \
-  --password=$DB_PASS_FIRMA \
+  --user-name=$DB_USER_SIGNATURE \
+  --password=$DB_PASS_SIGNATURE \
   --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker \
   --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
 
 run-batch
 EOF
 
-echo "---------------- Shutdown Wildfly --------------"
-$JBOSS_CLI -c ":shutdown"
+# Previously a JWT key must have been generated manually by executing the Class: ServicioTokenJwt.java
+$JBOSS_CLI -c << EOF
+batch
+/system-property="jwt.key":add(value="${JWT_KEY_SIGNATURE}")
+run-batch
+EOF
 
+echo "--------------  Shutdown Wildfly  --------------"
+$JBOSS_CLI -c ":shutdown"

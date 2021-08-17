@@ -10,9 +10,9 @@ services:
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/pgdata
-      - DB_NAME_FIRMA=${DB_NAME_FIRMA}
-      - DB_USER_FIRMA=${DB_USER_FIRMA}
-      - DB_PASS_FIRMA=${DB_PASS_FIRMA}
+      - DB_NAME_SIGNATURE=${DB_NAME_SIGNATURE}
+      - DB_USER_SIGNATURE=${DB_USER_SIGNATURE}
+      - DB_PASS_SIGNATURE=${DB_PASS_SIGNATURE}
     volumes:
       - ${HOME}/postgres-data/:/var/lib/postgresql/data
 
@@ -20,21 +20,18 @@ services:
     build:
       context: ./wildfly
       args:
-        - DB_USER_FIRMA=${DB_USER_FIRMA}
-        - DB_PASS_FIRMA=${DB_PASS_FIRMA}
-        - DB_NAME_FIRMA=${DB_NAME_FIRMA}
+        - DB_USER_SIGNATURE=${DB_USER_SIGNATURE}
+        - DB_PASS_SIGNATURE=${DB_PASS_SIGNATURE}
+        - DB_NAME_SIGNATURE=${DB_NAME_SIGNATURE}
         - ADMIN_NAME=${ADMIN_NAME}
         - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+        - JWT_KEY_SIGNATURE=${JWT_KEY_SIGNATURE}
     container_name: dev-wildfly
     depends_on:
       - db
     ports:
-      - 8080:8080
+      - 8180:8080
       - 9990:9990
-    #volumes:
-    #- wildfly-data:/opt/jboss/wildfly/standalone/log
-    #- /opt/wildfly-static/:/opt/jboss/wildfly-static/
-    restart: always
 
   bonita:
     image: bonita:2021.1
@@ -50,7 +47,7 @@ services:
       - PLATFORM_LOGIN=${PLATFORM_LOGIN}
       - PLATFORM_PASSWORD=${PLATFORM_PASSWORD}
       - REST_API_DYN_AUTH_CHECKS=false
-      - TZ=America/Guayaquil      
+      - TZ=America/Guayaquil
       - DB_NAME=${DB_NAME_BONITA}
       - DB_USER=${DB_USER_BONITA}
       - DB_PASS=${DB_PASS_BONITA}

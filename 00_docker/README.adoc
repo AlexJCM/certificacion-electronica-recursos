@@ -1,0 +1,157 @@
+= Pre-configured Bonita 7.12 and Firma Digital Web Services with Wildfly 20 + Postgres 11
+
+== Postgres
+
+This image is based on the [official Postgres image](https://hub.docker.com/_/postgres)
+
+=== Databases
+
+When starting a new container, it will create three databases...
+* `bonita` (connection user `bonita`, password `bpm`)
+* `business_data` (connection user `business_data`, password `bpm`)
+* `firmadigital` (connection user `firmadigital`, password `firmadigital`)
+
+=== Build and run it
+
+- First create an `.env` file similar to the `.env-example` file and configure it with the respective credentials.
+
+[source, bash]
+----
+docker build -t my-bonita-postgres .
+----
+
+Recommended way, to have datafiles out of container: bind a volume to **/var/lib/postgresql/data**
+
+[source, bash]
+----
+docker run -d \
+    --name dev-postgres \
+    -e POSTGRES_PASSWORD=postgres \
+    -e PGDATA=/var/lib/postgresql/data/pgdata \
+    -v ${HOME}/postgres-data/:/var/lib/postgresql/data \
+    -p 5432:5432 \
+    firmaec-postgres
+----
+
+=== Execute shell command inside container
+
+[source, bash]
+----
+docker exec -it dev-postgres bash
+----
+
+Verify that the user and database have been created correctly:
+
+[source, sql]
+----
+psql -d database_name -h 127.0.0.1 -U database_user
+-- Expected return: 1
+SELECT 1; \q
+----
+
+=== Review configurations in container (optional)
+
+[source, bash]
+----
+cat /var/lib/postgresql/data/pgdata/postgresql.conf
+cat /var/lib/postgresql/data/pgdata/pg_hba.conf
+----
+
+
+== Wildfly
+
+This image is based on the [official Wildfly image](https://hub.docker.com/r/jboss/wildfly)
+
+=== Build and run it
+
+- First create an `.env` file similar to the `.env-example` file and configure it with the respective credentials.
+
+- Next, build images and run containers with Docker Compose:
+
+[source, bash]
+----
+docker-compose up --build -d
+----
+
+Stop and remove containers, networks.
+
+[source, bash]
+----
+docker-compose down -v --remove-orphans
+----
+
+=== Shell
+
+Execute shell command inside container
+
+[source, bash]
+----
+docker exec -it dev-wildfly bash
+----
+
+
+== Bonita
+
+== Run it
+
+[source, bash]
+----
+docker run --name=dev-bonita -v /opt/bonita:/opt/bonita \
+  -e "TENANT_LOGIN=tech_user" -e "TENANT_PASSWORD=secret" -e "PLATFORM_LOGIN=pfadmin" -e "PLATFORM_PASSWORD=pfsecret" \
+  -d -p 8080:8080 bonita:2021.1
+----
+
+== Build and run it
+
+- Build and run it with Docker Compose. Build images before starting containers:
+
+[source, bash]
+----
+docker-compose up --build -d
+----
+
+Stop and remove containers, networks. Remove named volumes declared in the volumes section of the Compose file and anonymous volumes attached to containers. Remove containers for services not defined in the Compose file.
+
+[source, bash]
+----
+docker-compose down -v --remove-orphans
+----
+
+== Shell
+
+Execute shell command inside container
+
+[source, bash]
+----
+docker exec -it dev-bonita bash
+----
+
+== Logs
+
+[source, bash]
+----
+docker logs -f dev-bonita
+----
+
+== Post-Config Bonita
+
+Increase the default transaction timeout of XA from 180 to 300 with sed command:
+
+[source, xml]
+----
+<!-- <entry key="com.arjuna.ats.arjuna.coordinator.defaultTimeout">180</entry> -->
+<entry key="com.arjuna.ats.arjuna.coordinator.defaultTimeout">300</entry>
+----
+
+[source, bash]
+----
+export URL_PAGES=https://github.com/alexjcm/certificacion-electronica-recursos/raw/main/01_paginas/bonita-pages \
+  && export PATH_BONITA_SERVER=/opt/bonita/BonitaCommunity-2021.1/server \
+  && wget $URL_PAGES/login.jsp \
+  && mv -f login.jsp $PATH_BONITA_SERVER/webapps/bonita \
+  && wget $URL_PAGES/error-pages/403.jsp \
+  && wget $URL_PAGES/error-pages/404.jsp \
+  && wget $URL_PAGES/error-pages/500.jsp \
+  && mv -f 403.jsp 404.jsp 500.jsp $PATH_BONITA_SERVER/webapps/bonita/error-pages \
+  && sed -i "s/defaultTimeout\">180/defaultTimeout\">300/" "$PATH_BONITA_SERVER"/conf/jbossts-properties.xml
+----

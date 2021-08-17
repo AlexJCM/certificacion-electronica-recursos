@@ -4,18 +4,22 @@ ENV WILDFLY_VERSION 20.0.1.Final
 ENV WILDFLY_SHA1 95366b4a0c8f2e6e74e3e4000a98371046c83eeb
 ENV JBOSS_HOME /opt/jboss/wildfly
 # ENV JAVA_OPTS=" -Xms784m -Xmx784m -XX:MetaspaceSize=784m -XX:MaxMetaspaceSize=784m -Djava.net.preferIPv4Stack=true"
+# This JVM argument takes precedence over the environment variable TZ.
+#ENV JAVA_OPTS="$JAVA_OPTS -Duser.timezone=America/Guayaquil
 ENV WILDFLY_STATIC /opt/wildfly-static
+ENV TZ=America/Guayaquil
 
 ENV DATASOURCE_NAME FirmaDigitalDS
 ENV DATASOURCE_JNDI java:/FirmaDigitalDS
 # For connect to container with database we need change 'localhost' on your database service, in my case 'localhost' to 'db'.
 ARG DB_HOST=db
 ARG DB_PORT=5432
-ARG DB_USER_FIRMA
-ARG DB_PASS_FIRMA
-ARG DB_NAME_FIRMA
+ARG DB_USER_SIGNATURE
+ARG DB_PASS_SIGNATURE
+ARG DB_NAME_SIGNATURE
 ARG ADMIN_NAME
 ARG ADMIN_PASSWORD
+ARG JWT_KEY_SIGNATURE
 
 USER root
 RUN cd $HOME \
@@ -52,11 +56,8 @@ RUN /scripts/config.sh
 # WARN: Could not rename /opt/wildfly/standalone/configuration/standalone_xml_history/current 
 # to /opt/wildfly/standalone/configuration/standalone_xml_history/
 RUN rm -rf $JBOSS_HOME/standalone/configuration/standalone_xml_history/current
-
 COPY /no-descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
-
 EXPOSE 8080 9990
-
 # The embed-server feature allows running CLI commands when the server is offline.
 RUN $JBOSS_HOME/bin/add-user.sh $ADMIN_NAME $ADMIN_PASSWORD --silent
 
