@@ -1,0 +1,79 @@
+= Pre-configured Bonita 7.12.1 + Postgres 11
+
+== Run it
+
+Modify default credentials
+
+[source, bash]
+----
+docker run --name=dev-bonita -v /opt/bonita:/opt/bonita \
+  -e "TENANT_LOGIN=tech_user" -e "TENANT_PASSWORD=secret" -e "PLATFORM_LOGIN=pfadmin" -e "PLATFORM_PASSWORD=pfsecret" \
+  -d -p 8080:8080 bonita:2021.1
+----
+
+This will start a container running Bonita runtime: a Tomcat bundle with Bonita Engine + Bonita Portal.
+
+
+== Build and run it
+
+- Build and run it with Docker Compose. Build images before starting containers:
+
+[source, bash]
+----
+docker-compose up --build -d
+----
+
+- Create and start containers:
+
+[source, bash]
+----
+docker-compose up -d
+----
+
+Stop and remove containers, networks. Remove named volumes declared in the volumes section of the Compose file and anonymous volumes attached to containers. Remove containers for services not defined in the Compose file.
+
+[source, bash]
+----
+docker-compose down -v --remove-orphans
+----
+
+== Shell
+
+Execute shell command inside container
+
+[source, bash]
+----
+docker exec -it dev-bonita bash
+----
+
+== Logs 
+
+[source, bash]
+----
+docker logs -f dev-bonita
+----
+
+== Post-Config
+
+Increase the default transaction timeout of XA from 180 to 300 with sed command:
+
+[source, xml]
+----
+<entry key="com.arjuna.ats.arjuna.coordinator.defaultTimeout">180</entry>
+<entry key="com.arjuna.ats.arjuna.coordinator.defaultTimeout">300</entry>
+----
+
+[source, bash]
+----
+export URL_PAGES=https://github.com/alexjcm/certificacion-electronica-recursos/raw/main/01_paginas/bonita-pages &&
+export PATH_BONITA_SERVER=/opt/bonita/BonitaCommunity-2021.1/server \
+    && wget $URL_PAGES/login.jsp \
+    && mv -f login.jsp $PATH_BONITA_SERVER/webapps/bonita \
+    && wget $URL_PAGES/error-pages/403.jsp \
+    && wget $URL_PAGES/error-pages/404.jsp \
+    && wget $URL_PAGES/error-pages/500.jsp \
+    && mv -f 403.jsp 404.jsp 500.jsp $PATH_BONITA_SERVER/webapps/bonita/error-pages \
+    && sed -i "s/defaultTimeout\">180/defaultTimeout\">300/" "$PATH_BONITA_SERVER"/conf/jbossts-properties.xml
+----
+
+

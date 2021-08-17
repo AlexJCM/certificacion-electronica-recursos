@@ -1,0 +1,83 @@
+version: "3.9"
+
+services:
+  db:
+    build: ./postgres
+    container_name: dev-postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - DB_NAME_FIRMA=${DB_NAME_FIRMA}
+      - DB_USER_FIRMA=${DB_USER_FIRMA}
+      - DB_PASS_FIRMA=${DB_PASS_FIRMA}
+    volumes:
+      - ${HOME}/postgres-data/:/var/lib/postgresql/data
+
+  wildfly:
+    build:
+      context: ./wildfly
+      args:
+        - DB_USER_FIRMA=${DB_USER_FIRMA}
+        - DB_PASS_FIRMA=${DB_PASS_FIRMA}
+        - DB_NAME_FIRMA=${DB_NAME_FIRMA}
+        - ADMIN_NAME=${ADMIN_NAME}
+        - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    container_name: dev-wildfly
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+      - 9990:9990
+    #volumes:
+    #- wildfly-data:/opt/jboss/wildfly/standalone/log
+    #- /opt/wildfly-static/:/opt/jboss/wildfly-static/
+    restart: always
+
+  bonita:
+    image: bonita:2021.1
+    container_name: dev-bonita
+    ports:
+      - 5000:8080
+    environment:
+      - POSTGRES_ENV_POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_VENDOR=postgres
+      - DB_HOST=db
+      - TENANT_LOGIN=${TENANT_LOGIN}
+      - TENANT_PASSWORD=${TENANT_PASSWORD}
+      - PLATFORM_LOGIN=${PLATFORM_LOGIN}
+      - PLATFORM_PASSWORD=${PLATFORM_PASSWORD}
+      - REST_API_DYN_AUTH_CHECKS=false
+      - TZ=America/Guayaquil      
+      - DB_NAME=${DB_NAME_BONITA}
+      - DB_USER=${DB_USER_BONITA}
+      - DB_PASS=${DB_PASS_BONITA}
+      - BIZ_DB_NAME=${BIZ_DB_NAME_BONITA}
+      - BIZ_DB_USER=${DB_USER_BONITA}
+      - BIZ_DB_PASS=${DB_PASS_BONITA}
+    volumes:
+      - /opt/bonita:/opt/bonita
+
+    restart: on-failure:2
+    depends_on:
+      - db
+    entrypoint:
+      - bash
+      - -c
+      - |
+        set -e
+        echo 'Waiting for Postgres to be available'
+        export PGPASSWORD="$$POSTGRES_ENV_POSTGRES_PASSWORD"
+        maxTries=10
+        while [ "$$maxTries" -gt 0 ] && ! psql -h "$$DB_HOST" -U 'postgres' -c '\l'; do
+            let maxTries--
+            sleep 1
+        done
+        echo
+        if [ "$$maxTries" -le 0 ]; then
+            echo >&2 'error: unable to contact Postgres after 10 tries'
+            exit 1
+        fi
+        exec /opt/files/startup.sh
