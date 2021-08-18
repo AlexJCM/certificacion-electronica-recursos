@@ -1,4 +1,8 @@
-= Pre-configured Bonita 7.12 and Firma Digital Web Services with Wildfly 20 + Postgres 11
+= Pre-configured Bonita Runtime and Firma Digital Web Services with Wildfly 20 + Postgres 11
+
+== Prerequisites
+
+- Create an `.env` file similar to the `.env-example` file and configure it with the respective credentials.
 
 == Postgres
 
@@ -13,11 +17,9 @@ When starting a new container, it will create three databases...
 
 === Build and run it
 
-- First create an `.env` file similar to the `.env-example` file and configure it with the respective credentials.
-
 [source, bash]
 ----
-docker build -t my-bonita-postgres .
+docker build -t custom-postgres .
 ----
 
 Recommended way, to have datafiles out of container: bind a volume to **/var/lib/postgresql/data**
@@ -25,12 +27,12 @@ Recommended way, to have datafiles out of container: bind a volume to **/var/lib
 [source, bash]
 ----
 docker run -d \
-    --name dev-postgres \
+    --name custom-postgres \
     -e POSTGRES_PASSWORD=postgres \
     -e PGDATA=/var/lib/postgresql/data/pgdata \
     -v ${HOME}/postgres-data/:/var/lib/postgresql/data \
     -p 5432:5432 \
-    firmaec-postgres
+    dev-postgres
 ----
 
 === Execute shell command inside container
@@ -38,15 +40,6 @@ docker run -d \
 [source, bash]
 ----
 docker exec -it dev-postgres bash
-----
-
-Verify that the user and database have been created correctly:
-
-[source, sql]
-----
-psql -d database_name -h 127.0.0.1 -U database_user
--- Expected return: 1
-SELECT 1; \q
 ----
 
 === Review configurations in container (optional)
@@ -64,8 +57,6 @@ This image is based on the [official Wildfly image](https://hub.docker.com/r/jbo
 
 === Build and run it
 
-- First create an `.env` file similar to the `.env-example` file and configure it with the respective credentials.
-
 - Next, build images and run containers with Docker Compose:
 
 [source, bash]
@@ -73,7 +64,7 @@ This image is based on the [official Wildfly image](https://hub.docker.com/r/jbo
 docker-compose up --build -d
 ----
 
-Stop and remove containers, networks.
+Stop and remove networks and containers for services defined in the Compose file.
 
 [source, bash]
 ----
@@ -92,7 +83,7 @@ docker exec -it dev-wildfly bash
 
 == Bonita
 
-== Run it
+=== Run it
 
 [source, bash]
 ----
@@ -101,7 +92,7 @@ docker run --name=dev-bonita -v /opt/bonita:/opt/bonita \
   -d -p 8080:8080 bonita:2021.1
 ----
 
-== Build and run it
+=== Build and run it
 
 - Build and run it with Docker Compose. Build images before starting containers:
 
@@ -110,14 +101,14 @@ docker run --name=dev-bonita -v /opt/bonita:/opt/bonita \
 docker-compose up --build -d
 ----
 
-Stop and remove containers, networks. Remove named volumes declared in the volumes section of the Compose file and anonymous volumes attached to containers. Remove containers for services not defined in the Compose file.
+Stop and remove networks and containers for services defined in the Compose file.
 
 [source, bash]
 ----
 docker-compose down -v --remove-orphans
 ----
 
-== Shell
+=== Shell
 
 Execute shell command inside container
 
@@ -126,14 +117,8 @@ Execute shell command inside container
 docker exec -it dev-bonita bash
 ----
 
-== Logs
 
-[source, bash]
-----
-docker logs -f dev-bonita
-----
-
-== Post-Config Bonita
+=== Post-Config Bonita
 
 Increase the default transaction timeout of XA from 180 to 300 with sed command:
 

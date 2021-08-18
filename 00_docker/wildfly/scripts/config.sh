@@ -10,10 +10,11 @@ function wait_for_server() {
   done
 }
 
+echo "--------  Stup wilfly-static directory ----------"
 sed -i '/<location name="\/" handler="welcome-content"\/>/a \                    <location name="\/static" handler="dirPdfs"\/>' "$JBOSS_FILE_CONFIG"
 sed -i '/<file name="welcome-content" path="${jboss.home.dir}\/welcome-content"\/>/a \                <file name="dirPdfs" path="\/opt\/wildfly-static"\/>' "$JBOSS_FILE_CONFIG"
 
-echo "----------- Starting WildFly Server ------------"
+echo "----------- Starting WildFly Server -------------"
 $JBOSS_HOME/bin/standalone.sh -b=0.0.0.0 -c standalone.xml > /dev/null &
 echo "-------  Waiting for the server to boot  -------"
 wait_for_server
@@ -37,6 +38,7 @@ data-source add \
 run-batch
 EOF
 
+echo "------------  Setup JWT KEY   ---------------"
 # Previously a JWT key must have been generated manually by executing the Class: ServicioTokenJwt.java
 $JBOSS_CLI -c << EOF
 batch
@@ -44,5 +46,5 @@ batch
 run-batch
 EOF
 
-echo "--------------  Shutdown Wildfly  --------------"
+echo "------------  Shutdown Wildfly  -------------"
 $JBOSS_CLI -c ":shutdown"
