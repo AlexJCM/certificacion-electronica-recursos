@@ -10,9 +10,10 @@ function wait_for_server() {
   done
 }
 
-echo "--------  Stup wilfly-static directory ----------"
+echo "--------  Setup wilfly-static directory and set http port to 8180 ----------"
 sed -i '/<location name="\/" handler="welcome-content"\/>/a \                    <location name="\/static" handler="dirPdfs"\/>' "$JBOSS_FILE_CONFIG"
 sed -i '/<file name="welcome-content" path="${jboss.home.dir}\/welcome-content"\/>/a \                <file name="dirPdfs" path="\/opt\/wildfly-static"\/>' "$JBOSS_FILE_CONFIG"
+sed -i "s/jboss.http.port:8080/jboss.http.port:8180/" "$JBOSS_FILE_CONFIG"
 
 echo "----------- Starting WildFly Server -------------"
 $JBOSS_HOME/bin/standalone.sh -b=0.0.0.0 -c standalone.xml > /dev/null &

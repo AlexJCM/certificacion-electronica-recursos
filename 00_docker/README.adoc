@@ -6,7 +6,7 @@
 
 == Postgres
 
-This image is based on the [official Postgres image](https://hub.docker.com/_/postgres)
+This image is based on the https://hub.docker.com/_/postgres[official Postgres image]
 
 === Databases
 
@@ -53,7 +53,7 @@ cat /var/lib/postgresql/data/pgdata/pg_hba.conf
 
 == Wildfly
 
-This image is based on the [official Wildfly image](https://hub.docker.com/r/jboss/wildfly)
+This image is based on the https://hub.docker.com/r/jboss/wildfly[official Wildfly image]
 
 === Build and run it
 
@@ -117,8 +117,7 @@ Execute shell command inside container
 docker exec -it dev-bonita bash
 ----
 
-
-=== Post-Config Bonita
+=== Post-Config Bonita (Optional)
 
 Increase the default transaction timeout of XA from 180 to 300 with sed command:
 

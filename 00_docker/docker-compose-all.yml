@@ -30,8 +30,10 @@ services:
     depends_on:
       - db
     ports:
-      - 8180:8080
+      - 8180:8180
       - 9990:9990
+    volumes:
+      - wildfly-static:/opt/wildfly-static
 
   bonita:
     image: bonita:2021.1
@@ -78,3 +80,10 @@ services:
             exit 1
         fi
         exec /opt/files/startup.sh
+        
+volumes:
+    wildfly-static:
+      external: true
+      # If you specify 'external: true' you have to create the volume externally
+      # using: docker volume create --name=wildfly-static
+      

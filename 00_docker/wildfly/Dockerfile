@@ -34,7 +34,7 @@ RUN cd $HOME \
 RUN mkdir -p ${WILDFLY_STATIC} \
     && chown -R jboss:0 ${WILDFLY_STATIC} \
     && chmod -R g+rw ${WILDFLY_STATIC}
-    
+
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
@@ -57,7 +57,7 @@ RUN /scripts/config.sh
 # to /opt/wildfly/standalone/configuration/standalone_xml_history/
 RUN rm -rf $JBOSS_HOME/standalone/configuration/standalone_xml_history/current
 COPY /no-descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
-EXPOSE 8080 9990
+EXPOSE 8180 9990
 # The embed-server feature allows running CLI commands when the server is offline.
 RUN $JBOSS_HOME/bin/add-user.sh $ADMIN_NAME $ADMIN_PASSWORD --silent
 
