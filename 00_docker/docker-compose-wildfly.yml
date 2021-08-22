@@ -38,6 +38,5 @@ services:
 volumes:
     wildfly-static:
       external: true
-      # If you specify 'external: true' you have to create the volume externally
-      # using: docker volume create --name=wildfly-static
+      # Create the volume externally using: docker volume create --name=wildfly-static
   

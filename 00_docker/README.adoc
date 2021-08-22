@@ -1,4 +1,4 @@
-= Pre-configured Bonita Runtime and Firma Digital Web Services with Wildfly 20 + Postgres 11
+= Pre-configured Bonita Runtime + Postgres 11 and Firma Digital Web Services with Wildfly
 
 == Prerequisites
 
@@ -15,32 +15,7 @@ When starting a new container, it will create three databases...
 * `business_data` (connection user `business_data`, password `bpm`)
 * `firmadigital` (connection user `firmadigital`, password `firmadigital`)
 
-=== Build and run it
-
-[source, bash]
-----
-docker build -t custom-postgres .
-----
-
 Recommended way, to have datafiles out of container: bind a volume to **/var/lib/postgresql/data**
-
-[source, bash]
-----
-docker run -d \
-    --name custom-postgres \
-    -e POSTGRES_PASSWORD=postgres \
-    -e PGDATA=/var/lib/postgresql/data/pgdata \
-    -v ${HOME}/postgres-data/:/var/lib/postgresql/data \
-    -p 5432:5432 \
-    dev-postgres
-----
-
-=== Execute shell command inside container
-
-[source, bash]
-----
-docker exec -it dev-postgres bash
-----
 
 === Review configurations in container (optional)
 
@@ -57,23 +32,22 @@ This image is based on the https://hub.docker.com/r/jboss/wildfly[official Wildf
 
 === Build and run it
 
-- Next, build images and run containers with Docker Compose:
+- Build images and run containers with Docker Compose:
 
 [source, bash]
 ----
-docker-compose up --build -d
+docker volume create --name=wildfly-static
+docker-compose -f docker-compose-wildfly.yml up --build -d
 ----
 
 Stop and remove networks and containers for services defined in the Compose file.
 
 [source, bash]
 ----
-docker-compose down -v --remove-orphans
+docker-compose -f docker-compose-wildfly.yml down -v --remove-orphans
 ----
 
-=== Shell
-
-Execute shell command inside container
+=== Execute shell command inside container
 
 [source, bash]
 ----
@@ -83,34 +57,23 @@ docker exec -it dev-wildfly bash
 
 == Bonita
 
-=== Run it
-
-[source, bash]
-----
-docker run --name=dev-bonita -v /opt/bonita:/opt/bonita \
-  -e "TENANT_LOGIN=tech_user" -e "TENANT_PASSWORD=secret" -e "PLATFORM_LOGIN=pfadmin" -e "PLATFORM_PASSWORD=pfsecret" \
-  -d -p 8080:8080 bonita:2021.1
-----
-
 === Build and run it
 
 - Build and run it with Docker Compose. Build images before starting containers:
 
 [source, bash]
 ----
-docker-compose up --build -d
+docker-compose -f docker-compose-bonita.yml up --build -d
 ----
 
 Stop and remove networks and containers for services defined in the Compose file.
 
 [source, bash]
 ----
-docker-compose down -v --remove-orphans
+docker-compose -f docker-compose-bonita.yml down -v --remove-orphans
 ----
 
-=== Shell
-
-Execute shell command inside container
+=== Execute shell command inside container
 
 [source, bash]
 ----
@@ -119,13 +82,7 @@ docker exec -it dev-bonita bash
 
 === Post-Config Bonita (Optional)
 
-Increase the default transaction timeout of XA from 180 to 300 with sed command:
-
-[source, xml]
-----
-<!-- <entry key="com.arjuna.ats.arjuna.coordinator.defaultTimeout">180</entry> -->
-<entry key="com.arjuna.ats.arjuna.coordinator.defaultTimeout">300</entry>
-----
+Download and configure bonita error pages.
 
 [source, bash]
 ----
@@ -136,6 +93,5 @@ export URL_PAGES=https://github.com/alexjcm/certificacion-electronica-recursos/r
   && wget $URL_PAGES/error-pages/403.jsp \
   && wget $URL_PAGES/error-pages/404.jsp \
   && wget $URL_PAGES/error-pages/500.jsp \
-  && mv -f 403.jsp 404.jsp 500.jsp $PATH_BONITA_SERVER/webapps/bonita/error-pages \
-  && sed -i "s/defaultTimeout\">180/defaultTimeout\">300/" "$PATH_BONITA_SERVER"/conf/jbossts-properties.xml
+  && mv -f 403.jsp 404.jsp 500.jsp $PATH_BONITA_SERVER/webapps/bonita/error-pages
 ----

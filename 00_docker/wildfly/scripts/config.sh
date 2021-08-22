@@ -1,5 +1,4 @@
 #!/bin/bash
-###########  Start, config and shutdown Wildfly  ##############
 JBOSS_CLI=$JBOSS_HOME/bin/jboss-cli.sh
 JBOSS_FILE_CONFIG=$JBOSS_HOME/standalone/configuration/standalone.xml
 
@@ -17,10 +16,9 @@ sed -i "s/jboss.http.port:8080/jboss.http.port:8180/" "$JBOSS_FILE_CONFIG"
 
 echo "----------- Starting WildFly Server -------------"
 $JBOSS_HOME/bin/standalone.sh -b=0.0.0.0 -c standalone.xml > /dev/null &
-echo "-------  Waiting for the server to boot  -------"
 wait_for_server
-echo "------------  Setup Datasource   ---------------"
 
+echo "------------  Setup Datasource   ---------------"
 $JBOSS_CLI -c << EOF
 batch
 module add --name=org.postgresql --resources=$HOME/postgresql-42.2.2.jar --dependencies=javax.api,javax.transaction.api
@@ -49,3 +47,4 @@ EOF
 
 echo "------------  Shutdown Wildfly  -------------"
 $JBOSS_CLI -c ":shutdown"
+

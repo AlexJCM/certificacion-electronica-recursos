@@ -66,6 +66,7 @@ services:
       - bash
       - -c
       - |
+        sed -i "s/defaultTimeout\">180/defaultTimeout\">300/" /opt/bonita/BonitaCommunity-2021.1/server/conf/jbossts-properties.xml
         set -e
         echo 'Waiting for Postgres to be available'
         export PGPASSWORD="$$POSTGRES_ENV_POSTGRES_PASSWORD"
@@ -84,6 +85,5 @@ services:
 volumes:
     wildfly-static:
       external: true
-      # If you specify 'external: true' you have to create the volume externally
-      # using: docker volume create --name=wildfly-static
+      # Create the volume externally using: docker volume create --name=wildfly-static
       

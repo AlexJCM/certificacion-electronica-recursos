@@ -3,10 +3,9 @@ FROM jboss/base-jdk:8
 ENV WILDFLY_VERSION 20.0.1.Final
 ENV WILDFLY_SHA1 95366b4a0c8f2e6e74e3e4000a98371046c83eeb
 ENV JBOSS_HOME /opt/jboss/wildfly
-# ENV JAVA_OPTS=" -Xms784m -Xmx784m -XX:MetaspaceSize=784m -XX:MaxMetaspaceSize=784m -Djava.net.preferIPv4Stack=true"
-# This JVM argument takes precedence over the environment variable TZ.
-#ENV JAVA_OPTS="$JAVA_OPTS -Duser.timezone=America/Guayaquil
 ENV WILDFLY_STATIC /opt/wildfly-static
+# ENV JAVA_OPTS=" -Xms784m -Xmx784m -XX:MetaspaceSize=784m -XX:MaxMetaspaceSize=784m -Djava.net.preferIPv4Stack=true"
+#ENV JAVA_OPTS="$JAVA_OPTS -Duser.timezone=America/Guayaquil
 ENV TZ=America/Guayaquil
 
 ENV DATASOURCE_NAME FirmaDigitalDS
@@ -35,7 +34,6 @@ RUN mkdir -p ${WILDFLY_STATIC} \
     && chown -R jboss:0 ${WILDFLY_STATIC} \
     && chmod -R g+rw ${WILDFLY_STATIC}
 
-# Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
 USER jboss
@@ -58,7 +56,6 @@ RUN /scripts/config.sh
 RUN rm -rf $JBOSS_HOME/standalone/configuration/standalone_xml_history/current
 COPY /no-descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
 EXPOSE 8180 9990
-# The embed-server feature allows running CLI commands when the server is offline.
 RUN $JBOSS_HOME/bin/add-user.sh $ADMIN_NAME $ADMIN_PASSWORD --silent
 
 #CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
