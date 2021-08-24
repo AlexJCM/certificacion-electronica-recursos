@@ -30,7 +30,7 @@ services:
     depends_on:
       - db
     ports:
-      - 8180:8180
+      - 7776:8080
       - 9990:9990
     volumes:
       - wildfly-static:/opt/wildfly-static
@@ -39,4 +39,3 @@ volumes:
     wildfly-static:
       external: true
       # Create the volume externally using: docker volume create --name=wildfly-static
-  

@@ -10,16 +10,16 @@ This image is based on the https://hub.docker.com/_/postgres[official Postgres i
 
 === Databases
 
-When starting a new container, it will create three databases...
-* `bonita` (connection user `bonita`, password `bpm`)
-* `business_data` (connection user `business_data`, password `bpm`)
-* `firmadigital` (connection user `firmadigital`, password `firmadigital`)
+When a new container is started, three databases will be created with the names and credentials provided in the `.env` file.
+
+* `bonita_db` (connection user `bonita_user`, password `bonita_pass`)
+* `business_db` (connection user `bonita_user`, password `bonita_pass`)
+* `signature_db` (connection user `user_db_sign`, password `password_db_sign`)
 
 Recommended way, to have datafiles out of container: bind a volume to **/var/lib/postgresql/data**
 
 === Review configurations in container (optional)
 
-[source, bash]
 ----
 cat /var/lib/postgresql/data/pgdata/postgresql.conf
 cat /var/lib/postgresql/data/pgdata/pg_hba.conf
@@ -32,12 +32,12 @@ This image is based on the https://hub.docker.com/r/jboss/wildfly[official Wildf
 
 === Build and run it
 
-- Build images and run containers with Docker Compose:
+Build images and run containers with Docker Compose:
 
 [source, bash]
 ----
-docker volume create --name=wildfly-static
-docker-compose -f docker-compose-wildfly.yml up --build -d
+docker volume create --name=wildfly-static \
+    && docker-compose -f docker-compose-wildfly.yml up --build -d
 ----
 
 Stop and remove networks and containers for services defined in the Compose file.
@@ -54,16 +54,41 @@ docker-compose -f docker-compose-wildfly.yml down -v --remove-orphans
 docker exec -it dev-wildfly bash
 ----
 
+=== Post configuration Wildfly instance
+
+Generate a SHA256 hash from a api key
+
+- You can use the following commands to generate your SHA256 hash:
+
+[source, sql]
+----
+echo "The api key to use in this example is: secure_password"
+export API_KEY_HASH=$(echo -n secure_password | sha256sum | cut -d' ' -f1)
+echo -e "The SHA256 hash generated from the api key, which will be inserted in the database, is:\n$API_KEY_HASH"
+----
+
+- You can also use https://hash.online-convert.com/es/generador-sha256[this page] to generate your SHA256 hash.
+
+Insert the following record in the `sistema` table of the database `signature_db` (for development or production)
+
+[source, sql]
+----
+psql signature_db user_db_sign
+
+INSERT INTO sistema(id, url, apikey, apikeyrest, descripcion, nombre) VALUES (1, 'http://localhost:8080/recepcion/rest', '$API_KEY_HASH', '$API_KEY_HASH', 'Módulo de certificación electrónica', 'mce');
+----
+
 
 == Bonita
 
 === Build and run it
 
-- Build and run it with Docker Compose. Build images before starting containers:
+Build and run it with Docker Compose. Build images before starting containers:
 
 [source, bash]
 ----
-docker-compose -f docker-compose-bonita.yml up --build -d
+docker volume create --name=wildfly-static \
+    && docker-compose -f docker-compose-bonita.yml up --build -d
 ----
 
 Stop and remove networks and containers for services defined in the Compose file.
@@ -80,7 +105,7 @@ docker-compose -f docker-compose-bonita.yml down -v --remove-orphans
 docker exec -it dev-bonita bash
 ----
 
-=== Post-Config Bonita (Optional)
+=== Post configuration Bonita Runtime (Optional)
 
 Download and configure bonita error pages.
 

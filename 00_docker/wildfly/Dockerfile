@@ -5,7 +5,7 @@ ENV WILDFLY_SHA1 95366b4a0c8f2e6e74e3e4000a98371046c83eeb
 ENV JBOSS_HOME /opt/jboss/wildfly
 ENV WILDFLY_STATIC /opt/wildfly-static
 # ENV JAVA_OPTS=" -Xms784m -Xmx784m -XX:MetaspaceSize=784m -XX:MaxMetaspaceSize=784m -Djava.net.preferIPv4Stack=true"
-#ENV JAVA_OPTS="$JAVA_OPTS -Duser.timezone=America/Guayaquil
+# ENV JAVA_OPTS="$JAVA_OPTS -Duser.timezone=America/Guayaquil
 ENV TZ=America/Guayaquil
 
 ENV DATASOURCE_NAME FirmaDigitalDS
@@ -51,11 +51,10 @@ RUN chown -R jboss:0 /scripts \
 USER jboss
 RUN /scripts/config.sh
 
-# WARN: Could not rename /opt/wildfly/standalone/configuration/standalone_xml_history/current 
-# to /opt/wildfly/standalone/configuration/standalone_xml_history/
 RUN rm -rf $JBOSS_HOME/standalone/configuration/standalone_xml_history/current
-COPY /no-descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
-EXPOSE 8180 9990
+#COPY /no-descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
+COPY /descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
+EXPOSE 8080 9990
 RUN $JBOSS_HOME/bin/add-user.sh $ADMIN_NAME $ADMIN_PASSWORD --silent
 
 #CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]

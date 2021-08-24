@@ -20,7 +20,7 @@ services:
     image: bonita:2021.1
     container_name: dev-bonita
     ports:
-      - 5000:8080
+      - 80:8080
     environment:
       - POSTGRES_ENV_POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - DB_VENDOR=postgres
@@ -39,6 +39,7 @@ services:
       - BIZ_DB_PASS=${DB_PASS_BONITA}
     volumes:
       - /opt/bonita:/opt/bonita
+      #- wildfly-static:/opt/wildfly-static
 
     restart: on-failure:2
     depends_on:
@@ -63,3 +64,7 @@ services:
         fi
         exec /opt/files/startup.sh
 
+#volumes:
+#    wildfly-static:
+#      external: true
+      # Create the volume externally using: docker volume create --name=wildfly-static
