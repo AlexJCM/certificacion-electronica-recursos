@@ -29,6 +29,7 @@ services:
     container_name: dev-wildfly
     depends_on:
       - db
+    restart: always
     ports:
       - 7776:8080
       - 9990:9990
