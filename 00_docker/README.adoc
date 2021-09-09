@@ -38,6 +38,10 @@ Build images and run containers with Docker Compose:
 ----
 docker volume create --name=wildfly-static \
     && docker-compose -f docker-compose-wildfly.yml up --build -d
+    
+# Prod without db
+docker volume create --name=wildfly-static \
+    && docker-compose --env-file ./.env-wildfly-prod -f docker-compose-wildfly-prod.yml up --build -d
 ----
 
 Stop and remove networks and containers for services defined in the Compose file.
@@ -45,6 +49,9 @@ Stop and remove networks and containers for services defined in the Compose file
 [source, bash]
 ----
 docker-compose -f docker-compose-wildfly.yml down -v --remove-orphans
+
+# Prod without db
+docker-compose -f docker-compose-wildfly-prod.yml down -v --remove-orphans
 ----
 
 === Execute shell command inside container

@@ -1,24 +1,10 @@
 version: "3.9"
 
 services:
-  db:
-    build: ./postgres
-    container_name: dev-postgres
-    restart: always
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - PGDATA=/var/lib/postgresql/data/pgdata
-      - DB_NAME_SIGNATURE=${DB_NAME_SIGNATURE}
-      - DB_USER_SIGNATURE=${DB_USER_SIGNATURE}
-      - DB_PASS_SIGNATURE=${DB_PASS_SIGNATURE}
-    volumes:
-      - ${HOME}/postgres-data/:/var/lib/postgresql/data
-
   wildfly:
     build:
       context: ./wildfly
+      dockerfile: Dockerfile-prod      
       args:
         - DB_USER_SIGNATURE=${DB_USER_SIGNATURE}
         - DB_PASS_SIGNATURE=${DB_PASS_SIGNATURE}
@@ -26,9 +12,11 @@ services:
         - ADMIN_NAME=${ADMIN_NAME}
         - ADMIN_PASSWORD=${ADMIN_PASSWORD}
         - JWT_KEY_SIGNATURE=${JWT_KEY_SIGNATURE}
-    container_name: dev-wildfly
-    depends_on:
-      - db
+    extra_hosts:
+      - "dockerhost:192.168.100.119"
+#      - "host.docker.internal:host-gateway"
+#      - "host.docker.internal:172.17.0.1"
+    container_name: wildfly-prod    
     restart: always
     ports:
       - 7776:7776

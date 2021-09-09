@@ -13,6 +13,9 @@ echo "--------  Setup wilfly-static directory ----------"
 sed -i '/<location name="\/" handler="welcome-content"\/>/a \                    <location name="\/static" handler="dirPdfs"\/>' "$JBOSS_FILE_CONFIG"
 sed -i '/<file name="welcome-content" path="${jboss.home.dir}\/welcome-content"\/>/a \                <file name="dirPdfs" path="\/opt\/wildfly-static"\/>' "$JBOSS_FILE_CONFIG"
 
+echo "--------  Chenge http port from 8080 to 7776 ----------"
+sed -i "s/jboss.http.port:8080/jboss.http.port:7776/" "$JBOSS_FILE_CONFIG"
+
 echo "----------- Starting WildFly Server -------------"
 $JBOSS_HOME/bin/standalone.sh -b=0.0.0.0 -c standalone.xml > /dev/null &
 wait_for_server

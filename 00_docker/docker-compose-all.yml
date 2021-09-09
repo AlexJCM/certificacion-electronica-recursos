@@ -31,7 +31,7 @@ services:
       - db
     restart: always
     ports:
-      - 7776:8080
+      - 7776:7776
       - 9990:9990
     volumes:
       - wildfly-static:/opt/wildfly-static
