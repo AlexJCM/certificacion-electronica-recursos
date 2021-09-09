@@ -57,7 +57,8 @@ RUN /scripts/config.sh
 RUN rm -rf $JBOSS_HOME/standalone/configuration/standalone_xml_history/current
 #COPY /no-descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
 COPY /descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
-EXPOSE 8080 9990
+#EXPOSE 8080 9990
+EXPOSE 7776 9990
 RUN $JBOSS_HOME/bin/add-user.sh $ADMIN_NAME $ADMIN_PASSWORD --silent
 
 #CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
