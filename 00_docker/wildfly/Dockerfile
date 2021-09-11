@@ -53,7 +53,6 @@ USER jboss
 RUN /scripts/config.sh
 
 RUN rm -rf $JBOSS_HOME/standalone/configuration/standalone_xml_history/current
-#COPY /no-descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
 COPY /descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
 #EXPOSE 8080 9990
 EXPOSE 7776 9990
