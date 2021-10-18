@@ -1,4 +1,4 @@
-FROM postgres:11.13-alpine
+FROM postgres:12.8-alpine
 
 ENV POSTGRES_PASSWORD=DEFAULT_BONITA_ROOT_PSSWD
 

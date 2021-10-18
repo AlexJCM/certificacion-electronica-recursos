@@ -37,7 +37,7 @@ services:
       - wildfly-static:/opt/wildfly-static
 
   bonita:
-    image: bonita:2021.1
+    image: bonita:2021.2-u0
     container_name: dev-bonita
     ports:
       - 80:8080
@@ -68,7 +68,7 @@ services:
       - bash
       - -c
       - |
-        sed -i "s/defaultTimeout\">180/defaultTimeout\">300/" /opt/bonita/BonitaCommunity-2021.1/server/conf/jbossts-properties.xml
+        sed -i "s/defaultTimeout\">180/defaultTimeout\">300/" /opt/bonita/BonitaCommunity-2021.2-u0/server/conf/jbossts-properties.xml
         set -e
         echo 'Waiting for Postgres to be available'
         export PGPASSWORD="$$POSTGRES_ENV_POSTGRES_PASSWORD"

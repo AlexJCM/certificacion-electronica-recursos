@@ -23,7 +23,7 @@ wait_for_server
 echo "------------  Setup Datasource   ---------------"
 $JBOSS_CLI -c << EOF
 batch
-module add --name=org.postgresql --resources=$HOME/postgresql-42.2.2.jar --dependencies=javax.api,javax.transaction.api
+module add --name=org.postgresql --resources=$HOME/postgresql-42.2.13.jar --dependencies=javax.api,javax.transaction.api
 /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
 
 data-source add \

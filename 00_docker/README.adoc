@@ -1,4 +1,4 @@
-= Pre-configured Bonita Runtime + Postgres 11 and Firma Digital Web Services with Wildfly
+= Pre-configured Bonita Runtime + Postgres 12.8 and Firma Digital Web Services with Wildfly
 
 == Prerequisites
 
@@ -18,12 +18,36 @@ When a new container is started, three databases will be created with the names 
 
 Recommended way, to have datafiles out of container: bind a volume to **/var/lib/postgresql/data**
 
+=== Build and run it
+
+Build images and run containers with Docker Compose:
+
+[source, bash]
+----
+docker-compose -f docker-compose-postgres.yml up --build -d   
+----
+
+Stop and remove networks and containers for services defined in the Compose file.
+
+[source, bash]
+----
+docker-compose -f docker-compose-postgres.yml down -v --remove-orphans
+----
+
+=== Execute shell command inside container
+
+[source, bash]
+----
+docker exec -it dev-postgres bash
+----
+
 === Review configurations in container (optional)
 
 ----
 cat /var/lib/postgresql/data/pgdata/postgresql.conf
 cat /var/lib/postgresql/data/pgdata/pg_hba.conf
 ----
+
 
 
 == Wildfly
@@ -86,6 +110,7 @@ INSERT INTO sistema(id, url, apikey, apikeyrest, descripcion, nombre) VALUES (1,
 ----
 
 
+
 == Bonita
 
 === Build and run it
@@ -119,11 +144,8 @@ Download and configure bonita error pages.
 [source, bash]
 ----
 export URL_PAGES=https://github.com/alexjcm/certificacion-electronica-recursos/raw/main/01_paginas/bonita-pages \
-  && export PATH_BONITA_SERVER=/opt/bonita/BonitaCommunity-2021.1/server \
+  && export PATH_BONITA_SERVER=/opt/bonita/BonitaCommunity-2021.2-u0/server \
   && wget $URL_PAGES/login.jsp \
-  && mv -f login.jsp $PATH_BONITA_SERVER/webapps/bonita \
-  && wget $URL_PAGES/error-pages/403.jsp \
-  && wget $URL_PAGES/error-pages/404.jsp \
-  && wget $URL_PAGES/error-pages/500.jsp \
-  && mv -f 403.jsp 404.jsp 500.jsp $PATH_BONITA_SERVER/webapps/bonita/error-pages
+  && mv -f login.jsp $PATH_BONITA_SERVER/webapps/bonita
 ----
+

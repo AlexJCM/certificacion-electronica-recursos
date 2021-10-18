@@ -15,4 +15,4 @@
 
 - https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/04_imagenes[Imágenes.-] Incluye los logotipos e imágenes utilizados en la aplicación.
 
-Para acceder al repositorio que contiene el código fuente de la aplicación web principal desarrollada con Bonita Studio Community 7.12.1 haz clic https://github.com/alexjcm/certificacion-electronica[aquí].
+Para acceder al repositorio que contiene el código fuente de la aplicación web principal desarrollada con Bonita Studio Community 7.13 haz clic https://github.com/alexjcm/certificacion-electronica[aquí].

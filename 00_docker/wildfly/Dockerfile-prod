@@ -1,4 +1,4 @@
-FROM jboss/base-jdk:8
+FROM jboss/base-jdk:11
 
 ENV WILDFLY_VERSION 20.0.1.Final
 ENV WILDFLY_SHA1 95366b4a0c8f2e6e74e3e4000a98371046c83eeb
@@ -43,13 +43,13 @@ USER jboss
 COPY ./scripts/config.sh /scripts/
 COPY api.war $JBOSS_HOME/standalone/deployments/
 COPY recepcion.war $JBOSS_HOME/standalone/deployments/
-ADD https://jdbc.postgresql.org/download/postgresql-42.2.2.jar $HOME
+ADD https://jdbc.postgresql.org/download/postgresql-42.2.13.jar $HOME
 
 USER root
 RUN chown -R jboss:0 /scripts \
     && chmod +x /scripts/config.sh \
-    && chown -R jboss:0 /opt/jboss/postgresql-42.2.2.jar \
-    && chmod -R g+rw /opt/jboss/postgresql-42.2.2.jar
+    && chown -R jboss:0 /opt/jboss/postgresql-42.2.13.jar \
+    && chmod -R g+rw /opt/jboss/postgresql-42.2.13.jar
 
 USER jboss
 RUN /scripts/config.sh
@@ -57,7 +57,7 @@ RUN /scripts/config.sh
 RUN rm -rf $JBOSS_HOME/standalone/configuration/standalone_xml_history/current
 #COPY /no-descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
 COPY /descarga-crl/servicio.war $JBOSS_HOME/standalone/deployments/
-#EXPOSE 8080 9990
+
 EXPOSE 7776 9990
 RUN $JBOSS_HOME/bin/add-user.sh $ADMIN_NAME $ADMIN_PASSWORD --silent
 
