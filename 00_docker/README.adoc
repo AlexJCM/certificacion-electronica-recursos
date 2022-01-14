@@ -1,4 +1,4 @@
-= Pre-configured Bonita Runtime + Postgres 12.8 and Firma Digital Web Services with Wildfly
+= Pre-configured Bonita Runtime 2021.2 + Postgres 12.8 and Firma Digital Web Services with Wildfly
 
 == Prerequisites
 
