@@ -1,8 +1,9 @@
-= Pre-configured Bonita Runtime 2021.2 + Postgres 12.8 and Firma Digital Web Services with Wildfly
+= Pre-configured Bonita Runtime 2021.2 + Postgres 12.8 and Firma Digital Web Services with Wildfly 20
 
 == Prerequisites
 
-- Create an `.env` file similar to the `.env-example` file and configure it with the respective credentials.
+- Installing Docker and Docker Compose V2
+- Create a copy of the `.env-example` file and rename it to `.env`, then modify it with the respective credentials.
 
 == Postgres
 
@@ -10,7 +11,7 @@ This image is based on the https://hub.docker.com/_/postgres[official Postgres i
 
 === Databases
 
-When a new container is started, three databases will be created with the names and credentials provided in the `.env` file.
+When a new container is started, three databases will be created with the names and credentials provided in the `.env` file. For example:
 
 * `bonita_db` (connection user `bonita_user`, password `bonita_pass`)
 * `business_db` (connection user `bonita_user`, password `bonita_pass`)
@@ -24,26 +25,21 @@ Build images and run containers with Docker Compose:
 
 [source, bash]
 ----
-docker-compose -f docker-compose-postgres.yml up --build -d   
+docker compose -f docker-compose-postgres.yml up --build -d   
 ----
 
-Stop and remove networks and containers for services defined in the Compose file.
+In case you want to stop and delete the networks and containers of the services defined in the Compose file run:
 
 [source, bash]
 ----
-docker-compose -f docker-compose-postgres.yml down -v --remove-orphans
+docker compose -f docker-compose-postgres.yml down -v --remove-orphans
 ----
 
-=== Execute shell command inside container
+For additional configurations, please review the following files:
 
 [source, bash]
 ----
 docker exec -it dev-postgres bash
-----
-
-=== Review configurations in container (optional)
-
-----
 cat /var/lib/postgresql/data/pgdata/postgresql.conf
 cat /var/lib/postgresql/data/pgdata/pg_hba.conf
 ----
@@ -60,36 +56,30 @@ Build images and run containers with Docker Compose:
 
 [source, bash]
 ----
-docker volume create --name=wildfly-static \
-    && docker-compose -f docker-compose-wildfly.yml up --build -d
+docker volume create --name=wildfly-static
+docker compose -f docker-compose-wildfly.yml up --build -d
     
 # Prod without db
-docker volume create --name=wildfly-static \
-    && docker-compose --env-file ./.env-wildfly-prod -f docker-compose-wildfly-prod.yml up --build -d
+# docker volume create --name=wildfly-static
+# docker-compose --env-file ./.env-wildfly-prod -f docker-compose-wildfly-prod.yml up --build -d
 ----
 
-Stop and remove networks and containers for services defined in the Compose file.
+In case you want to stop and delete the networks and containers of the services defined in the Compose file run:
 
 [source, bash]
 ----
-docker-compose -f docker-compose-wildfly.yml down -v --remove-orphans
+docker compose -f docker-compose-wildfly.yml down -v --remove-orphans
 
 # Prod without db
-docker-compose -f docker-compose-wildfly-prod.yml down -v --remove-orphans
+# docker compose -f docker-compose-wildfly-prod.yml down -v --remove-orphans
 ----
 
-=== Execute shell command inside container
-
-[source, bash]
-----
-docker exec -it dev-wildfly bash
-----
 
 === Post configuration Wildfly instance
 
 Generate a SHA256 hash from a api key
 
-- You can use the following commands to generate your SHA256 hash:
+*Opción 1:*.- You can use the following commands to generate your SHA256 hash:
 
 [source, sql]
 ----
@@ -98,17 +88,17 @@ export API_KEY_HASH=$(echo -n secure_password | sha256sum | cut -d' ' -f1)
 echo -e "The SHA256 hash generated from the api key, which will be inserted in the database, is:\n$API_KEY_HASH"
 ----
 
-- You can also use https://hash.online-convert.com/es/generador-sha256[this page] to generate your SHA256 hash.
+**Opción 2:**.- You can also use https://hash.online-convert.com/es/generador-sha256[this page] to generate your SHA256 hash.
 
 Insert the following record in the `sistema` table of the database `signature_db` (for development or production)
 
 [source, sql]
 ----
+docker exec -it dev-postgres bash
 psql signature_db user_db_sign
 
 INSERT INTO sistema(id, url, apikey, apikeyrest, descripcion, nombre) VALUES (1, 'http://localhost:7776/recepcion/rest', '$API_KEY_HASH', '$API_KEY_HASH', 'Módulo de certificación electrónica', 'mce');
 ----
-
 
 
 == Bonita
@@ -119,33 +109,31 @@ Build and run it with Docker Compose. Build images before starting containers:
 
 [source, bash]
 ----
-docker volume create --name=wildfly-static \
-    && docker-compose -f docker-compose-bonita.yml up --build -d
+docker volume create --name=bonita-vol
+docker compose -f docker-compose-bonita.yml up --build -d
 ----
 
-Stop and remove networks and containers for services defined in the Compose file.
+In case you want to stop and delete the networks and containers of the services defined in the Compose file run:
 
 [source, bash]
 ----
-docker-compose -f docker-compose-bonita.yml down -v --remove-orphans
+docker compose -f docker-compose-bonita.yml down -v --remove-orphans
 ----
 
 === Execute shell command inside container
 
 [source, bash]
 ----
-docker exec -it dev-bonita bash
+docker exec -it dev-bonita bash 
 ----
 
 === Post configuration Bonita Runtime (Optional)
 
-Download and configure bonita error pages.
+Download and replace Bonita login page.
 
 [source, bash]
 ----
-export URL_PAGES=https://github.com/alexjcm/certificacion-electronica-recursos/raw/main/01_paginas/bonita-pages \
-  && export PATH_BONITA_SERVER=/opt/bonita/BonitaCommunity-2021.2-u0/server \
-  && wget $URL_PAGES/login.jsp \
-  && mv -f login.jsp $PATH_BONITA_SERVER/webapps/bonita
+wget https://github.com/alexjcm/certificacion-electronica-recursos/raw/main/01_paginas/bonita-pages/login.jsp \
+  && mv -f login.jsp /var/lib/docker/volumes/bonita-vol/_data/BonitaCommunity-2021.2-u0/server/webapps/bonita
 ----
 

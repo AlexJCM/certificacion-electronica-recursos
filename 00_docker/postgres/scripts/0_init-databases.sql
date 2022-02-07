@@ -1,4 +1,4 @@
--- Database firmadigital
+-- Database firma digital
 \set dbname_SIGNATURE `echo $DB_NAME_SIGNATURE`
 \set user_SIGNATURE `echo $DB_USER_SIGNATURE`
 \set password_SIGNATURE `echo $DB_PASS_SIGNATURE`

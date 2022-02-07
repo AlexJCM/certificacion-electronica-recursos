@@ -40,7 +40,6 @@ run-batch
 EOF
 
 echo "------------  Setup JWT KEY   ---------------"
-# Previously a JWT key must have been generated manually by executing the Class: ServicioTokenJwt.java
 $JBOSS_CLI -c << EOF
 batch
 /system-property="jwt.key":add(value="${JWT_KEY_SIGNATURE}")
