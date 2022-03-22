@@ -25,7 +25,7 @@ Build images and run containers with Docker Compose:
 
 [source, bash]
 ----
-docker compose -f docker-compose-postgres.yml up --build -d   
+docker compose -f docker-compose-postgres.yml up --build -d
 ----
 
 In case you want to stop and delete the networks and containers of the services defined in the Compose file run:

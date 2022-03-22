@@ -2,17 +2,17 @@
 <h2>
   Recursos del Módulo de Certificación Electrónica (MCE)
 </h2>
-<h3>Lista de recursos disponibles:</h3>
+<h3>Lista de recursos y artefactos disponibles:</h3>
 ++++
 
-- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/00_docker[Docker.-] Contiene los archivos de configuración y despliegue de un servidor Wildfly con servicios web que permiten realizar el proceso de firma digital, Postgresql y Bonita Tomcat.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/00_docker[Docker.-] Contiene los archivos de configuración y despliegue de un servidor Wildfly con artefactos que permiten realizar el proceso de firma digital, configuración de Postgresql y Bonita Tomcat.
 
-- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/01_paginas[Páginas.-] Incluye las páginas y layouts de la aplicación. Depende del recurso *Extensión de API REST*.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/01_paginas[Páginas.-] Incluye la página del MCE y una versión modificada de la página del login de Bonita Portal. Depende del recurso *Extensión de API REST*.
 
-- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/02_extension-api-rest[Extensión de API REST.-] Contiene la extensión de la API REST requerida por la aplicación para consultar si un usuario logueado es administrador.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/02_extension-api-rest[Extensión de API REST.-] Contiene el artefaacto de la extensión de la API REST requerida por la aplicación para consultar si un usuario logueado es responsable o administrador de uno o más usuarios.
 
 - https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/03_aplicaciones[Aplicaciones.-] Incluye la definición de la aplicación. Depende del recurso *Páginas*.
 
-- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/04_imagenes[Imágenes.-] Incluye los logotipos e imágenes utilizados en la aplicación.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/04_imagenes[Imágenes.-] Incluye logotipos e imágenes utilizados en la aplicación.
 
-Para acceder al repositorio que contiene el código fuente de la aplicación web principal desarrollada con Bonita Studio Community 7.13 haz clic https://github.com/alexjcm/certificacion-electronica[aquí].
+Para revisar el repositorio que contiene el código fuente de la aplicación web principal desarrollada con Bonita Studio Community 2021.2 haz clic en el siguiente enlace https://github.com/alexjcm/certificacion-electronica[aquí].
