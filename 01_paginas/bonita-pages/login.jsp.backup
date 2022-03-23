@@ -82,7 +82,7 @@
 <head>
 <meta name="viewport" content="width=device-width, user-scalable=no">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<title>Bonita Portal CISC-UNL</title>
+<title>Bonita Portal</title>
 <link rel="icon" type="image/png" href="images/favicon2.ico" />
 <link rel="stylesheet" type="text/css" href="<%= styleUrl %>/css/login.css"/>
 
@@ -109,7 +109,7 @@
 <body id="LoginPage">
 
 	<div id="LoginHeader">
-		<h1><span><%= i18n.t_("Welcome to") %></span> <%= i18n.t_("Bonita Portal") %> CISC-UNL</h1>
+		<h1><span><%= i18n.t_("Welcome to") %></span> <%= i18n.t_("Bonita Portal") %></h1>
 	</div>
 
 	<div id="floater"></div>
@@ -121,7 +121,7 @@
 		</div>
 
 		<div class="body">
-			<form id="LoginForm" action="<%=actionUrl%>" method="post" autocomplete="on">
+			<form id="LoginForm" action="<%=actionUrl%>" method="post" autocomplete="off">
 
 				<div class="header">
 					<h2><%=i18n.t_("Login form")%></h2>
@@ -142,7 +142,7 @@
                                    value="<%= StringEscapeUtils.escapeHtml4(JSP.getSessionOrCookie("username", "")) %>"
                                    placeholder="<%=i18n.t_("User")%>"
                                    type="text"
-                                   autocomplete="on"
+                                   autocomplete="off"
                                    tabindex="1"
                                    maxlength="255" <%=disableLogin ? "disabled=\"disabled\" " : ""%>
                             />
@@ -159,7 +159,7 @@
                                    name="password"
                                    type="password"
                                    tabindex="2"
-                                   autocomplete="on"
+                                   autocomplete="off"
                                    maxlength="50"
                                    placeholder="<%=i18n.t_("Password")%>" <%=disableLogin ? "disabled=\"disabled\" " : ""%>
                             />
