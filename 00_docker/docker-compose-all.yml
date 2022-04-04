@@ -33,7 +33,12 @@ services:
       - 9990:9990
     volumes:
       - wildfly-static:/opt/wildfly-static
-
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 10
+        max-size: 4m
+        
   bonita:
     image: bonita:2021.2-u0
     container_name: dev-bonita
@@ -79,6 +84,12 @@ services:
             exit 1
         fi
         exec /opt/files/startup.sh
+
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 10
+        max-size: 4m
         
 volumes:
     wildfly-static:

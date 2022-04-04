@@ -44,6 +44,23 @@ cat /var/lib/postgresql/data/pgdata/postgresql.conf
 cat /var/lib/postgresql/data/pgdata/pg_hba.conf
 ----
 
+psql bonita_bdm bonita_db_user
+\dt
+select count(*) from botipocertevento;
+select count(*) from objetoevento;
+
+truncate table objetoevento;
+-- Para eliminar datos de una tabla y otras tablas que tienen una clave externa
+-- que hace referencia a la tabla, use CASCADE
+truncate table botipocertevento CASCADE;
+truncate table objetosolicitud;
+truncate table objetocertificado CASCADE;
+truncate table objetocertotros;
+truncate table objetopracticas;
+truncate table objetoprimeraprorroga;
+truncate table objetoprorrogapago;
+
+
 
 
 == Wildfly

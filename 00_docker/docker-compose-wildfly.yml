@@ -33,6 +33,11 @@ services:
       - 9990:9990
     volumes:
       - wildfly-static:/opt/wildfly-static
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 10
+        max-size: 4m 
 
 volumes:
     wildfly-static:

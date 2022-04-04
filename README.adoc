@@ -7,9 +7,7 @@
 
 - https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/00_docker[Docker.-] Contiene los archivos de configuración y despliegue de un servidor Wildfly con artefactos que permiten realizar el proceso de firma digital, configuración de Postgresql y Bonita Tomcat.
 
-- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/01_paginas[Páginas.-] Incluye la página del MCE y una versión modificada de la página del login de Bonita Portal. Depende del recurso *Extensión de API REST*.
-
-- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/02_extension-api-rest[Extensión de API REST.-] Contiene el artefaacto de la extensión de la API REST requerida por la aplicación para consultar si un usuario logueado es responsable o administrador de uno o más usuarios.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/01_paginas[Páginas.-] Incluye la página del MCE y una versión modificada de la página del login de Bonita Portal.
 
 - https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/03_aplicaciones[Aplicaciones.-] Incluye la definición de la aplicación. Depende del recurso *Páginas*.
 
