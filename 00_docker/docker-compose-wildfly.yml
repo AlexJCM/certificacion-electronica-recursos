@@ -3,16 +3,20 @@ services:
     build: ./postgres
     container_name: dev-postgres
     restart: always
-    ports:
-      - 5432:5432
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/pgdata
       - DB_NAME_SIGNATURE=${DB_NAME_SIGNATURE}
       - DB_USER_SIGNATURE=${DB_USER_SIGNATURE}
       - DB_PASS_SIGNATURE=${DB_PASS_SIGNATURE}
+    ports:
+      - 5432:5432
     volumes:
       - ${HOME}/postgres-data/:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          memory: 2GB
 
   wildfly:
     build:
@@ -38,6 +42,10 @@ services:
       options:
         max-file: 10
         max-size: 4m 
+    deploy:
+      resources:
+        limits:
+          memory: 2GB
 
 volumes:
     wildfly-static:

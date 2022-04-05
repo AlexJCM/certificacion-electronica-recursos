@@ -5,12 +5,12 @@
 <h3>Lista de recursos y artefactos disponibles:</h3>
 ++++
 
-- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/00_docker[Docker.-] Contiene los archivos de configuración y despliegue de un servidor Wildfly con artefactos que permiten realizar el proceso de firma digital, configuración de Postgresql y Bonita Tomcat.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/00_docker[Docker.-] Contiene los archivos de configuración y despliegue de un servidor Wildfly con artefactos que permiten realizar el proceso de firma electrónica, configuración de Postgresql y Bonita Tomcat 2021.2 (Revisar archivo README de dicho directorio).
 
 - https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/01_paginas[Páginas.-] Incluye la página del MCE y una versión modificada de la página del login de Bonita Portal.
 
-- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/03_aplicaciones[Aplicaciones.-] Incluye la definición de la aplicación. Depende del recurso *Páginas*.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/03_aplicaciones[Aplicaciones.-] Incluye la definición de la aplicación del MCE. Depende del recurso *Páginas*.
 
-- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/04_imagenes[Imágenes.-] Incluye logotipos e imágenes utilizados en la aplicación.
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/04_imagenes[Imágenes.-] Incluye logotipos e imágenes utilizadas en la aplicación.
 
 Para revisar el repositorio que contiene el código fuente de la aplicación web principal desarrollada con Bonita Studio Community 2021.2 haz clic en el siguiente enlace https://github.com/alexjcm/certificacion-electronica[aquí].

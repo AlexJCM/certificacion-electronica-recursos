@@ -3,22 +3,24 @@ services:
     build: ./postgres
     container_name: dev-postgres
     restart: always
-    ports:
-      - 5432:5432
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/pgdata
       - DB_NAME_SIGNATURE=${DB_NAME_SIGNATURE}
       - DB_USER_SIGNATURE=${DB_USER_SIGNATURE}
       - DB_PASS_SIGNATURE=${DB_PASS_SIGNATURE}
+    ports:
+      - 5432:5432
     volumes:
       - ${HOME}/postgres-data/:/var/lib/postgresql/data
-      
+    deploy:
+      resources:
+        limits:
+          memory: 2GB
+
   bonita:
     image: bonita:2021.2-u0
     container_name: dev-bonita
-    ports:
-      - 5000:8080
     environment:
       - POSTGRES_ENV_POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - DB_VENDOR=postgres
@@ -35,8 +37,15 @@ services:
       - BIZ_DB_NAME=${BIZ_DB_NAME_BONITA}
       - BIZ_DB_USER=${DB_USER_BONITA}
       - BIZ_DB_PASS=${DB_PASS_BONITA}
+    ports:
+      - 5000:8080
     volumes:
       - bonita-vol:/opt/bonita
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 10
+        max-size: 4m
     restart: on-failure:2
     depends_on:
       - db
@@ -44,7 +53,7 @@ services:
       - bash
       - -c
       - |
-        sed -i "s/defaultTimeout\">180/defaultTimeout\">300/" /opt/bonita/BonitaCommunity-2021.2-u0/server/conf/jbossts-properties.xml 
+        sed -i "s/defaultTimeout\">180/defaultTimeout\">300/" /opt/bonita/BonitaCommunity-2021.2-u0/server/conf/jbossts-properties.xml
         set -e
         echo 'Waiting for Postgres to be available'
         export PGPASSWORD=$${POSTGRES_ENV_POSTGRES_PASSWORD}
@@ -58,12 +67,6 @@ services:
             exit 1
         fi
         exec /opt/files/startup.sh
-
-    logging:
-      driver: "json-file"
-      options:
-        max-file: 10
-        max-size: 4m
 
 volumes:
     bonita-vol:
