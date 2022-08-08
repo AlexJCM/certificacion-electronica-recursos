@@ -44,6 +44,8 @@ cat /var/lib/postgresql/data/pgdata/postgresql.conf
 cat /var/lib/postgresql/data/pgdata/pg_hba.conf
 ----
 
+== 05-14-2022
+docker exec -it dev-postgres bash
 psql bonita_bdm bonita_db_user
 \dt
 select count(*) from botipocertevento;
@@ -53,12 +55,28 @@ truncate table objetoevento;
 -- Para eliminar datos de una tabla y otras tablas que tienen una clave externa
 -- que hace referencia a la tabla, use CASCADE
 truncate table botipocertevento CASCADE;
+-- NOTICE:  truncate cascades to table "objetoevento"
 truncate table objetosolicitud;
 truncate table objetocertificado CASCADE;
+-- NOTICE:  truncate cascades to table "objetosolicitud"
+-- NOTICE:  truncate cascades to table "objetocertific_prerrequisitos"
 truncate table objetocertotros;
 truncate table objetopracticas;
 truncate table objetoprimeraprorroga;
 truncate table objetoprorrogapago;
+
+truncate table boparametros;
+
+
+== 29-07-2022
+truncate table boprerrequisito CASCADE;
+NOTICE:  truncate cascades to table "objetocertific_prerrequisitos"
+...
+...
+
+truncate table objetocertificado CASCADE;
+-- NOTICE:  truncate cascades to table "objetosolicitud"
+-- NOTICE:  truncate cascades to table "objetocertific_prerrequisitos"
 
 
 
