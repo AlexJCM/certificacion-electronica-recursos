@@ -110,7 +110,7 @@ docker compose -f docker-compose-wildfly.yml down -v --remove-orphans
 ----
 
 
-=== Post configuration Wildfly instance
+=== Post initial configuration Wildfly instance
 
 Generate a SHA256 hash from a api key
 
