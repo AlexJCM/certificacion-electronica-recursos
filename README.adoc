@@ -15,4 +15,6 @@
 
 - https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/04_anexos[Anexos.-] Incluye manuales de usuario.
 
+- https://github.com/alexjcm/certificacion-electronica-recursos/tree/main/05_utilidades[Utilidades.-] Incluye librerías y otras utilidades.
+
 Para revisar el repositorio que contiene el código fuente de la aplicación web principal desarrollada con Bonita Studio Community 2021.2 haz clic en el siguiente enlace https://github.com/alexjcm/certificacion-electronica[aquí].
