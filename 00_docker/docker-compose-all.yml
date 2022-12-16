@@ -83,6 +83,7 @@ services:
       - -c
       - |
         sed -i "s/defaultTimeout\">180/defaultTimeout\">300/" /opt/bonita/BonitaCommunity-2021.2-u0/server/conf/jbossts-properties.xml
+        sed -i "s/session-timeout>30/session-timeout>60/" /opt/bonita/BonitaCommunity-2021.2-u0/server/conf/web.xml
         set -e
         echo 'Waiting for Postgres to be available'
         export PGPASSWORD=$${POSTGRES_ENV_POSTGRES_PASSWORD}

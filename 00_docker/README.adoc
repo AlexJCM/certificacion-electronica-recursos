@@ -132,7 +132,7 @@ Insert the following record in the `sistema` table of the database `signature_db
 docker exec -it dev-postgres bash
 psql signature_db user_db_sign
 
-INSERT INTO sistema(id, url, apikey, apikeyrest, descripcion, nombre) VALUES (1, 'http://localhost:7776/recepcion/rest', '$API_KEY_HASH', '$API_KEY_HASH', 'Módulo de certificación electrónica', 'mce');
+INSERT INTO sistema(id, url, apikey, apikeyrest, descripcion, nombre) VALUES (1, 'http://localhost:7776/recepcion/receiveDocument/saveSignedFile', '$API_KEY_HASH', '$API_KEY_HASH', 'Módulo de certificación electrónica', 'mce');
 ----
 
 
