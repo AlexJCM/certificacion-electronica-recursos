@@ -1,4 +1,4 @@
-FROM jboss/base-jdk:8
+FROM jboss/base-jdk:11
 
 ENV WILDFLY_VERSION 20.0.1.Final
 ENV WILDFLY_SHA1 95366b4a0c8f2e6e74e3e4000a98371046c83eeb
